@@ -1,7 +1,8 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-import { requireAuth } from "./auth";
 import { createClient } from "@supabase/supabase-js";
+// Removed the import for Clerk requireAuth
+// import { requireAuth } from "./auth";
 
 const supabaseUrl = process.env.SUPABASE_URL || "";
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
@@ -13,8 +14,8 @@ export function registerRoutes(app: Express): Server {
     res.json({ status: "ok" });
   });
 
-  // Protect the following routes with Clerk
-  app.use("/api/clients", requireAuth);
+  // Removed the line that protects /api/clients with Clerk
+  // app.use("/api/clients", requireAuth);
 
   // List all clients
   app.get("/api/clients", async (req, res) => {
