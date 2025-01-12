@@ -24,7 +24,8 @@ export default function AddCustomer() {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries(["/api/clients"]);
-      setLocation("/admin");
+      // Now navigate to the main client list page instead of /admin
+      setLocation("/");
     },
   });
 
