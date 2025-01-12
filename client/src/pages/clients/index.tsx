@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function ClientList() {
   const [search, setSearch] = useState("");
@@ -13,7 +14,8 @@ export default function ClientList() {
 
   const filteredClients = clients.filter(client => 
     client.name.toLowerCase().includes(search.toLowerCase()) ||
-    client.company.toLowerCase().includes(search.toLowerCase())
+    client.company?.toLowerCase()?.includes(search.toLowerCase()) ||
+    client.notes?.toLowerCase()?.includes(search.toLowerCase())
   );
 
   return (
@@ -21,14 +23,19 @@ export default function ClientList() {
       <div className="max-w-5xl mx-auto space-y-6">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-semibold text-foreground">Clients</h1>
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-            <Input
-              placeholder="Search clients..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="pl-9 w-[300px]"
-            />
+          <div className="flex items-center gap-2">
+            <Button asChild variant="outline">
+              <Link href="/admin">Go to Admin Panel</Link>
+            </Button>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+              <Input
+                placeholder="Search clients..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="pl-9 w-[300px]"
+              />
+            </div>
           </div>
         </div>
 
@@ -41,7 +48,9 @@ export default function ClientList() {
                     <div className="flex justify-between items-center">
                       <div>
                         <h2 className="text-lg font-medium">{client.name}</h2>
-                        <p className="text-sm text-muted-foreground">{client.company}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {client.company}
+                        </p>
                       </div>
                       <div className="text-sm text-muted-foreground">
                         {new Date(client.updatedAt).toLocaleDateString()}
